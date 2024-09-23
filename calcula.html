@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEWTON</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .calculator {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        #result {
+            width: 100%;
+            height: 60px;
+            text-align: right;
+            font-size: 2em;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        .button-row {
+            display: flex;
+            justify-content: space-between;
+        }
+        button {
+            width: 22%;
+            height: 60px;
+            font-size: 1.5em;
+            margin: 5px 0;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+        .number {
+            background-color: black;
+            color: white;
+        }
+        .operator {
+            background-color: green;
+            color: white;
+        }
+        .operator.add {
+            background-color: orange;
+        }
+        .operator.subtract {
+            background-color: red;
+        }
+        .operator.multiply {
+            background-color: blue;
+        }
+        .operator.divide {
+            background-color: purple;
+        }
+        button.clear {
+            background-color: #f44336;
+            color: white;
+        }
+        button.equal {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        @media (max-width: 600px) {
+            button {
+                height: 50px;
+                font-size: 1.2em;
+            }
+            #result {
+                height: 50px;
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="calculator">
+        <h1>NEWTON</h1>
+        <input type="text" id="result" readonly>
+        <div class="button-row">
+            <button class="number" onclick="appendNumber(7)">7</button>
+            <button class="number" onclick="appendNumber(8)">8</button>
+            <button class="number" onclick="appendNumber(9)">9</button>
+            <button class="operator divide" onclick="setOperator('/')">÷</button>
+        </div>
+        <div class="button-row">
+            <button class="number" onclick="appendNumber(4)">4</button>
+            <button class="number" onclick="appendNumber(5)">5</button>
+            <button class="number" onclick="appendNumber(6)">6</button>
+            <button class="operator multiply" onclick="setOperator('*')">×</button>
+        </div>
+        <div class="button-row">
+            <button class="number" onclick="appendNumber(1)">1</button>
+            <button class="number" onclick="appendNumber(2)">2</button>
+            <button class="number" onclick="appendNumber(3)">3</button>
+            <button class="operator subtract" onclick="setOperator('-')">−</button>
+        </div>
+        <div class="button-row">
+            <button class="number" onclick="appendNumber(0)">0</button>
+            <button class="clear" onclick="clearResult()">C</button>
+            <button class="equal" onclick="calculate()">=</button>
+            <button class="operator add" onclick="setOperator('+')">+</button>
+        </div>
+    </div>
+
+    <script>
+        let result = document.getElementById('result');
+        let operator = '';
+        let currentNumber = '';
+        let previousNumber = '';
+
+        function appendNumber(number) {
+            currentNumber += number;
+            result.value = currentNumber;
+        }
+
+        function setOperator(op) {
+            if (currentNumber === '') return;
+            operator = op;
+            previousNumber = currentNumber;
+            currentNumber = '';
+        }
+
+        function calculate() {
+            if (currentNumber === '' || previousNumber === '') return;
+            let calculation;
+            const prev = parseFloat(previousNumber);
+            const curr = parseFloat(currentNumber);
+
+            switch (operator) {
+                case '+':
+                    calculation = prev + curr;
+                    break;
+                case '-':
+                    calculation = prev - curr;
+                    break;
+                case '*':
+                    calculation = prev * curr;
+                    break;
+                case '/':
+                    calculation = prev / curr;
+                    break;
+                default:
+                    return;
+            }
+            result.value = calculation;
+            currentNumber = calculation.toString();
+            previousNumber = '';
+        }
+
+        function clearResult() {
+            result.value = '';
+            currentNumber = '';
+            previousNumber = '';
+            operator = '';
+        }
+    </script>
+
+</body>
+</html>
